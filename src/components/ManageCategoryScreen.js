@@ -48,6 +48,7 @@ class ManageCategoryScreen extends React.Component {
     const { params } = this.props.navigation.state;
     if (params && params.id) {
       this.isEdit = true;
+      this.loadCategory(params.id);
     }
 
     const editReaction = reaction(
@@ -56,15 +57,19 @@ class ManageCategoryScreen extends React.Component {
       },
       (id) => {
         if (id) {
-          try {
-            this.category = this.props.category.find({ filter: { id } });
-          } catch (e) {
-            console.error(e);
-            this.props.ui.notification = { text: e, type: 'danger' };
-          }
+          this.loadCategory(id);
         }
       }
     );
+  }
+
+  loadCategory(id) {
+    try {
+      this.category = Object.assign(this.category, this.props.category.findOne({ filter: { id } }));
+    } catch (e) {
+      console.error(e);
+      this.props.ui.notification = { text: e, type: 'danger' };
+    }
   }
 
   @action
@@ -75,9 +80,14 @@ class ManageCategoryScreen extends React.Component {
     }
 
     this.errors.name = false;
-
+    const { category: store } = this.props;
     try {
-      CategoryController.create(this.category);
+      if (this.isEdit) {
+        store.update(this.category);
+      } else {
+        store.create(this.category);
+      }
+
     } catch (e) {
       this.props.ui.notification = { text: e, type: 'danger' };
       this.navigateToCategoriesScreen();

@@ -15,6 +15,7 @@ import {
   Card,
   CardItem,
   Fab,
+  Body,
   Icon,
   List,
   ListItem,
@@ -38,7 +39,6 @@ class CategoriesScreen extends React.Component {
     this.addCategory = this.addCategory.bind(this);
     this.deleteRow = this.deleteRow.bind(this);
     this.editRow = this.editRow.bind(this);
-    this.openList = this.openList.bind(this);
   }
 
   @action
@@ -87,23 +87,22 @@ class CategoriesScreen extends React.Component {
 
   editRow(secId, rowId, rowMap) {
     const { id } = this.categories[rowId];
+    rowMap[`${secId}${rowId}`].props.closeRow();
     this.props.navigation.navigate('Edit List', { id });
-  }
-
-  openList(data) {
-    return () => this.props.navigation.navigate('List', data);
   }
 
   render() {
     return (
       this.isLoading ? <Spinner color='blue'/> :
-        <View>
+        <Container>
           <List
             dataSource={this.ds.cloneWithRows(this.categories)}
             renderRow={(data, index) =>
-              <ListItem key={index} onPress={this.openList(data)}>
-                <Text> {data.name} </Text>
-                <Text> {data.description} </Text>
+              <ListItem key={index}>
+                <Body>
+                  <Text> {data.name} </Text>
+                  <Text note> {data.description} </Text>
+                </Body>
               </ListItem>
             }
             disableRightSwipe
@@ -130,7 +129,7 @@ class CategoriesScreen extends React.Component {
                active>
             <Icon name="ios-add"/>
           </Fab>
-        </View>
+        </Container>
     );
   }
 }

@@ -15,10 +15,11 @@ import {
   Right,
   Icon,
   Title,
+  Spinner,
 } from 'native-base';
 import { ImageBackground } from 'react-native';
 import appStyles from 'appStyles';
-import backgroundImage from '../assets/background.jpg';
+import backgroundImage from '../assets/background.png';
 
 @inject('ui')
 @observer
@@ -49,7 +50,7 @@ class Layout extends React.Component {
         <ImageBackground resizeMode="cover"
                          source={backgroundImage}
                          style={appStyles.background}>
-          {this.props.children}
+          { this.props.ui.isLoading ? <Spinner/> : this.props.children }
         </ImageBackground>
       </Container>
     );

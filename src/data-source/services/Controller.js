@@ -18,19 +18,19 @@ export default class Controller {
     this.remove = this.remove.bind(this);
   }
 
-  findOne(query: Object) {
+  findOne(query: Object = {}) {
     const results = this.find(query);
 
     return results && results[0];
   }
 
-  find(query: QueryType) {
+  find(query: QueryType = {}) {
     const rawQuery = this.queryBuilder.build(query);
-    console.debug(`Querying DB with "${rawQuery}"`);
 
     let results = db.objects(this.name);
 
     if (rawQuery) {
+      console.debug(`Querying DB with "${rawQuery}"`);
       results = results.filtered(rawQuery);
     }
 
@@ -52,7 +52,8 @@ export default class Controller {
     data.id = lastId;
 
     return db.write(() => {
-      return db.create(this.name, data);
+      db.create(this.name, data);
+      console.log(results);
     });
   }
 
@@ -63,7 +64,7 @@ export default class Controller {
   }
 
   remove(id) {
-    const object = this.find({filter: {id}});
+    const object = this.find({ filter: { id } });
 
     return db.write(() => {
       return db.delete(object);

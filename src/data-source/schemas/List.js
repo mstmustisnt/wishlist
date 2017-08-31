@@ -4,10 +4,10 @@
 
 import Realm from 'realm';
 
-class Category extends Realm.Object {}
+class List extends Realm.Object {}
 
-Category.schema = {
-  name: 'Category',
+List.schema = {
+  name: 'List',
   primaryKey: 'id',
   properties: {
     id: 'int',
@@ -22,4 +22,4 @@ Category.schema = {
   },
 };
 
-export default Category;
+export default List;

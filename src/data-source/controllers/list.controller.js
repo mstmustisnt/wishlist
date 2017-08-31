@@ -1,11 +1,11 @@
 /*
-* @providesModule CategoryController
+* @providesModule ListController
 * */
 import Controller from '../services/Controller';
 
-class CategoryController extends Controller {
+class ListController extends Controller {
   constructor() {
-    super({name: 'Category'});
+    super({name: 'List'});
   }
 
   create(data) {
@@ -29,4 +29,4 @@ class CategoryController extends Controller {
     super.update(data);
   }
 }
-export default new CategoryController();
+export default new ListController();

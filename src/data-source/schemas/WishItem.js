@@ -14,7 +14,7 @@ WishItem.schema = {
     id: 'int',
     title: 'string',
     description: 'string',
-    category: 'Category',
+    list: 'List',
     createdAt: {
       type: 'date',
     },

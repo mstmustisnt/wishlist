@@ -24,17 +24,17 @@ import {
   Col,
 } from 'native-base';
 
-@inject('category')
+@inject('list')
 @observer
 class WishItemsScreen extends React.Component {
 
-  @observable categories = [];
+  @observable lists = [];
   @observable ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
   @observable isLoading = false;
 
   constructor() {
     super();
-    this.addCategory = this.addCategory.bind(this);
+    this.addList = this.addList.bind(this);
     this.deleteRow = this.deleteRow.bind(this);
     this.editRow = this.editRow.bind(this);
     this.openList = this.openList.bind(this);
@@ -43,12 +43,12 @@ class WishItemsScreen extends React.Component {
   @action
   componentWillMount() {
     this.isLoading = true;
-    this.categories = this.props.category.find({ orderBy: 'createdAt' });
+    this.lists = this.props.list.find({ orderBy: 'createdAt' });
     this.isLoading = false;
     console.log(this);
   }
 
-  addCategory() {
+  addList() {
     return this.props.navigation.navigate('New List');
   }
 
@@ -70,7 +70,7 @@ class WishItemsScreen extends React.Component {
         <Container>
           <View><Text>My lists</Text></View>
           <List
-            dataSource={this.ds.cloneWithRows(this.categories)}
+            dataSource={this.ds.cloneWithRows(this.lists)}
             renderRow={(data, index) =>
               <ListItem key={index} onPress={this.openList(data)}>
                   <Text> {data.name} </Text>
@@ -97,7 +97,7 @@ class WishItemsScreen extends React.Component {
           />
           <Fab position="bottomRight"
                direction="up"
-               onPress={this.addCategory}
+               onPress={this.addList}
                active>
             <Icon name="ios-add"/>
           </Fab>

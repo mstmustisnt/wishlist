@@ -29,6 +29,10 @@ class BaseStore {
     return this.Controller.find(query);
   }
 
+  create(data) {
+    return this.Controller.create(data);
+  }
+
   update(data) {
     return this.Controller.update(data);
   }

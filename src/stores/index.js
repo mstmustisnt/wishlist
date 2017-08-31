@@ -4,9 +4,9 @@
 'use strict';
 
 import UiStore from './ui.store';
-import CategoryStore from './category.store';
+import ListStore from './list.store';
 
 export default {
   ui: UiStore,
-  category: CategoryStore,
+  list: ListStore,
 }

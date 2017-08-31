@@ -33,7 +33,7 @@ class NewWishItemScreen extends React.Component {
   };
 
   static propTypes = {
-    category: PropTypes.number.isRequired,
+    list: PropTypes.number.isRequired,
   };
 
   constructor() {
@@ -60,7 +60,7 @@ class NewWishItemScreen extends React.Component {
   }
 
   navigateToWishList() {
-    this.props.navigation.navigate('CategoriesScreen');
+    this.props.navigation.navigate('ListsScreen');
   }
 
   openDrawer() {

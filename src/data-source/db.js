@@ -5,7 +5,7 @@
  */
 
 import Realm from 'realm';
-import Category from './schemas/Category';
+import List from './schemas/List';
 import WishItem from './schemas/WishItem';
 
-export default new Realm({ schema: [Category, WishItem] });
+export default new Realm({ schema: [List, WishItem], schemaVersion: 1 });

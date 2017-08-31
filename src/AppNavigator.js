@@ -12,8 +12,8 @@ import { StackNavigator } from 'react-navigation';
 import { Root, Content } from 'native-base';
 import appStyles from 'appStyles';
 import NewWishItemScreen from 'NewWishItemScreen';
-import ManageCategoryScreen from 'ManageCategoryScreen';
-import CategoriesScreen from 'CategoriesScreen';
+import ManageListScreen from 'ManageListScreen';
+import ListsScreen from 'ListsScreen';
 import WishItemsScreen from 'WishItemsScreen';
 // import EditWishScreen from 'EditWishScreen';
 
@@ -21,9 +21,9 @@ import Layout from './components/Layout';
 import stores from './stores';
 
 const navItems = [
-  { title: 'Lists', component: CategoriesScreen, path: 'lists', },
-  { title: 'New List', component: ManageCategoryScreen, path: 'lists/create' },
-  { title: 'Edit List', component: ManageCategoryScreen, path: 'lists/:id/edit' },
+  { title: 'Lists', component: ListsScreen, path: 'lists', },
+  { title: 'New List', component: ManageListScreen, path: 'lists/create' },
+  { title: 'Edit List', component: ManageListScreen, path: 'lists/:id/edit' },
   { title: 'New Wish', component: NewWishItemScreen, path: 'wishes/create' },
   {
     title: 'Edit Wish',

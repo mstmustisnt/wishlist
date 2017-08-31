@@ -1,5 +1,5 @@
 /*
-* @providesModule ManageCategoryScreen
+* @providesModule ManageListScreen
 * */
 
 import React from 'react';
@@ -24,13 +24,12 @@ import {
   FooterTab,
   Footer,
 } from 'native-base';
-import CategoryController from 'CategoryController';
 
 @inject('ui')
-@inject('category')
+@inject('list')
 @observer
-class ManageCategoryScreen extends React.Component {
-  @observable category = { name: '', description: '' };
+class ManageListScreen extends React.Component {
+  @observable list = { name: '', description: '' };
   @observable errors = {
     name: null
   };
@@ -38,7 +37,7 @@ class ManageCategoryScreen extends React.Component {
 
   constructor() {
     super();
-    this.saveCategory = this.saveCategory.bind(this);
+    this.saveList = this.saveList.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
   }
@@ -48,7 +47,7 @@ class ManageCategoryScreen extends React.Component {
     const { params } = this.props.navigation.state;
     if (params && params.id) {
       this.isEdit = true;
-      this.loadCategory(params.id);
+      this.loadList(params.id);
     }
 
     const editReaction = reaction(
@@ -57,15 +56,15 @@ class ManageCategoryScreen extends React.Component {
       },
       (id) => {
         if (id) {
-          this.loadCategory(id);
+          this.loadList(id);
         }
       }
     );
   }
 
-  loadCategory(id) {
+  loadList(id) {
     try {
-      this.category = Object.assign(this.category, this.props.category.findOne({ filter: { id } }));
+      this.list = Object.assign(this.list, this.props.list.findOne({ filter: { id } }));
     } catch (e) {
       console.error(e);
       this.props.ui.notification = { text: e, type: 'danger' };
@@ -73,32 +72,37 @@ class ManageCategoryScreen extends React.Component {
   }
 
   @action
-  saveCategory() {
-    if (!this.category.name) {
+  saveList() {
+    if (!this.list.name) {
       this.errors.name = true;
       return this.props.ui.notification = { text: 'Name is required', type: 'danger' };
     }
 
+    this.props.ui.isLoading = true;
     this.errors.name = false;
-    const { category: store } = this.props;
+    const { list: store } = this.props;
+    let text;
     try {
       if (this.isEdit) {
-        store.update(this.category);
+        store.update(this.list);
+        text = 'List has been updated';
       } else {
-        store.create(this.category);
+        store.create(this.list);
+        text = 'New list has been created';
       }
 
     } catch (e) {
       this.props.ui.notification = { text: e, type: 'danger' };
-      this.navigateToCategoriesScreen();
+      this.props.ui.isLoading = false;
+      return this.navigateToListsScreen();
     }
 
-
-    this.props.ui.notification = { text: 'New list has been created', type: 'success' };
-    this.navigateToCategoriesScreen();
+    this.props.ui.isLoading = false;
+    this.props.ui.notification = { text, type: 'success' };
+    this.navigateToListsScreen();
   }
 
-  navigateToCategoriesScreen() {
+  navigateToListsScreen() {
     this.props.navigation.navigate('Lists');
   }
 
@@ -113,7 +117,7 @@ class ManageCategoryScreen extends React.Component {
         this.errors[fieldName] = false;
       }
 
-      this.category[fieldName] = text;
+      this.list[fieldName] = text;
     });
   }
 
@@ -125,19 +129,20 @@ class ManageCategoryScreen extends React.Component {
             <Item floatingLabel
                   onTextChange={this.handleTextChange('name')}
                   error={this.errors.name}>
-              <Input value={this.category.name} onChangeText={this.handleTextChange('name')}/>
+              <Input value={this.list.name} onChangeText={this.handleTextChange('name')}/>
               <Label>Name</Label>
             </Item>
             <Item floatingLabel>
               <Label>Description</Label>
-              <Input value={this.category.description} onChangeText={this.handleTextChange('description')}/>
+              <Input value={this.list.description} onChangeText={this.handleTextChange('description')}/>
             </Item>
           </Form>
         </Content>
         <Footer>
           <FooterTab>
             <Button full
-                    onPress={this.saveCategory}>
+                    disabled={this.props.ui.isLoading}
+                    onPress={this.saveList}>
               <Text>Save</Text>
             </Button>
           </FooterTab>
@@ -147,4 +152,4 @@ class ManageCategoryScreen extends React.Component {
   }
 }
 
-export default ManageCategoryScreen;
+export default ManageListScreen;

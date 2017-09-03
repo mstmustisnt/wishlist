@@ -38,6 +38,7 @@ class ListsScreen extends React.Component {
     this.addList = this.addList.bind(this);
     this.deleteRow = this.deleteRow.bind(this);
     this.editRow = this.editRow.bind(this);
+    this.goToWishItems = this.goToWishItems.bind(this);
   }
 
   componentWillMount() {
@@ -94,13 +95,21 @@ class ListsScreen extends React.Component {
     this.props.navigation.navigate('Edit List', { id });
   }
 
+  @action
+  goToWishItems(id) {
+    return () => {
+      this.props.list.currentList = this.lists.find(list => list.id === id);
+      this.props.navigation.navigate('Wishes', { id });
+    }
+  }
+
   render() {
     return (
       <Container>
         <List
           dataSource={this.ds.cloneWithRows(this.lists)}
           renderRow={(data, index) =>
-            <ListItem key={index}>
+            <ListItem key={index} button onPress={this.goToWishItems(data.id)}>
               <Body>
               <Text> {data.name} </Text>
               <Text note> {data.description || 'No description'} </Text>

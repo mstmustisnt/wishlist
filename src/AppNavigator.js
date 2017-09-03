@@ -11,11 +11,10 @@ import { observer, Provider } from 'mobx-react';
 import { StackNavigator } from 'react-navigation';
 import { Root, Content } from 'native-base';
 import appStyles from 'appStyles';
-import NewWishItemScreen from 'NewWishItemScreen';
+import ManageWishItemScreen from 'ManageWishItemScreen';
 import ManageListScreen from 'ManageListScreen';
 import ListsScreen from 'ListsScreen';
 import WishItemsScreen from 'WishItemsScreen';
-// import EditWishScreen from 'EditWishScreen';
 
 import Layout from './components/Layout';
 import stores from './stores';
@@ -24,13 +23,13 @@ const navItems = [
   { title: 'Lists', component: ListsScreen, path: 'lists', },
   { title: 'New List', component: ManageListScreen, path: 'lists/create' },
   { title: 'Edit List', component: ManageListScreen, path: 'lists/:id/edit' },
-  { title: 'New Wish', component: NewWishItemScreen, path: 'wishes/create' },
+  { title: 'New Wish', component: ManageWishItemScreen, path: 'wishes/create' },
   {
     title: 'Edit Wish',
-    component: NewWishItemScreen,
-    path: 'wishes/:id/edit'
+    component: ManageWishItemScreen,
+    path: 'lists/:listId/wishes/:id/edit'
   },
-  { title: 'Wishes', component: WishItemsScreen, path: 'wishes' },
+  { title: 'Wishes', component: WishItemsScreen, path: 'lists/:id/wishes' },
 ];
 
 const navOptions = {};

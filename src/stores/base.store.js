@@ -16,7 +16,6 @@ class BaseStore {
   constructor(Controller) {
     const state = {
       Controller,
-      items: []
     };
     extendObservable(this, {}, state);
   }
